@@ -1,0 +1,22 @@
+{
+  "extends": "@tsconfig/node22/tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./dist",
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    },
+    "types": [],
+    "lib":["DOM","es2024", "ESNext.Array", "ESNext.Collection", "ESNext.Iterator"],
+
+    // Stricter Typechecking Options
+    "noUncheckedIndexedAccess": true,            // インデックスアクセス時に 'undefined' を型に追加
+    "strictNullChecks": true,                    // nullおよびundefinedの厳密な型チェックを有効化
+    "exactOptionalPropertyTypes": true,          // オプショナルプロパティを厳密に解釈（'undefined' を自動追加しない）
+    "noPropertyAccessFromIndexSignature": true   // インデックスシグネチャで宣言されたキーには配列記法でのアクセスを強制
+  },
+    "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx"
+  ]
+}

@@ -1,0 +1,13 @@
+[project]
+name = "py-autogui"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "pillow>=11.3.0",
+    "pyautogui>=0.9.54",
+    "pyperclip>=1.10.0",
+    "pyscreeze>=1.0.1",
+    "pywinctl>=0.4.1",
+]
