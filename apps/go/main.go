@@ -34,7 +34,6 @@ func copyInput() {
 	commandWith(robotgo.KeyA)
 	commandWith(robotgo.KeyC)
 	printClipboard()
-
 }
 
 // commandWith: command + {key} を実行する。
