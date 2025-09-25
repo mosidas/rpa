@@ -10,7 +10,7 @@
   "frontend:dev:serverUrl": "http://localhost:3000",
   "wailsjsdir": "frontend/wailsjs",
   "author": {
-    "name": "syouta-yamaguchi-rv",
-    "email": "syouta.yamaguchi@mail.raven-g.com"
+    "name": "shota",
+    "email": ""
   }
 }
