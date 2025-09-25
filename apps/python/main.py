@@ -1,38 +1,37 @@
-import pyautogui  # type: ignore
-import pyperclip  # type: ignore
-import pywinctl  # type: ignore
-import time
 import datetime
+import time
+
+import pyautogui  # type: ignore  # noqa: PGH003
+import pyperclip  # type: ignore  # noqa: PGH003
+import pywinctl  # type: ignore  # noqa: PGH003
 
 
-def print_location():
+def print_location() -> None:
   """現在のポインターの位置を出力する。"""
-
   x, y = pyautogui.position()
   print(f"location: {x} {y}")
 
 
-def print_clipboard():
+def print_clipboard() -> None:
   """現在のクリップボードのテキストを出力する。"""
-
   clip_str = pyperclip.paste()
   print(f"clipboard: {clip_str}")
 
 
-def delete_input():
+def delete_input() -> None:
   """現在のフォーカスされているテキストボックスの内容を削除する。"""
   pyautogui.hotkey("command", "a")
   pyautogui.press("backspace")
 
 
-def copy_input():
+def copy_input() -> None:
   """現在のフォーカスされているテキストボックスの内容をクリップボードにコピーする。"""
   pyautogui.hotkey("command", "a")
   pyautogui.hotkey("command", "c")
   print_clipboard()
 
 
-def save_screenshot():
+def save_screenshot() -> None:
   window = pywinctl.getWindowsWithTitle("dummy-gui")[0]
   window.activate()
   x, y = window.topleft
@@ -45,12 +44,12 @@ def save_screenshot():
   screenshot.save(f"./{file_name}")
 
 
-def handle_browser():
+def handle_browser() -> None:
   pyautogui.moveTo(380, 330, 0.3)
   pyautogui.click(button="middle")
 
 
-def handle_dummygui():
+def handle_dummygui() -> None:
   pyautogui.rightClick()
   pyautogui.hotkey("command", "escape")
   pyautogui.hotkey("command", "space")
