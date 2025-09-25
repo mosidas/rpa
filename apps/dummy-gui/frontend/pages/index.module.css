@@ -54,6 +54,29 @@
 
 .canvas { border: 1px dashed #cbd5e1; background: #fff; }
 
+/* Drag & Drop Canvas */
+.canvasBoard {
+  position: relative;
+  height: 420px;
+  border: 1px dashed #cbd5e1;
+  border-radius: .5rem;
+  background: #fff;
+  overflow: hidden;
+}
+.canvasItem {
+  position: absolute;
+  border: 1px solid #e5e7eb;
+  border-radius: .5rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,.06);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  cursor: grab;
+  color: #111827;
+}
+.canvasItemDragging { opacity: .85; cursor: grabbing; }
+
 .table { width: 100%; border-collapse: collapse; }
 .table th, .table td { border: 1px solid #e5e7eb; padding: .5rem .75rem; white-space: nowrap; }
 .table th { background: #f8fafc; text-align: left; position: sticky; top: 0; z-index: 1; }

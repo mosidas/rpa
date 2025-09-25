@@ -8,8 +8,8 @@ import (
 	"github.com/go-vgo/robotgo"
 )
 
-// printLoaction: 現在のポインターの位置を出力する。
-func printLoaction() {
+// printLocation: 現在のポインターの位置を出力する。
+func printLocation() {
 	x, y := robotgo.Location()
 	fmt.Printf("location: %v %v\n", x, y)
 }
@@ -50,7 +50,7 @@ func getScreenShot() {
 		if strings.Contains(strings.ToLower(p.Name), "dummy") {
 			// ウィンドウの位置とサイズを取得
 			x, y, w, h := robotgo.GetBounds(p.Pid)
-			fmt.Printf("hwnd:%v x:%v y:%v w:%v h:%v", p.Pid, x, y, w, h)
+			fmt.Printf("hwnd:%v x:%v y:%v w:%v h:%v\n", p.Pid, x, y, w, h)
 
 			fileName := time.Now().Format("2006-01-02-15-04-05")
 			if x != 0 && y != 0 && w != 0 && h != 0 {
@@ -62,6 +62,73 @@ func getScreenShot() {
 			return
 		}
 	}
+}
+
+func handleBrowser() {
+	robotgo.MoveSmooth(380, 330, 0.5, 0.7)
+	robotgo.Click(robotgo.Center)
+}
+
+func handleDummygui() {
+	robotgo.Click(robotgo.Right)
+	commandWith(robotgo.Escape)
+	commandWith(robotgo.Space)
+
+	robotgo.Move(100, 100)
+	robotgo.Click(robotgo.Left)
+	printLocation()
+
+	// form
+	robotgo.MoveSmooth(800, 240, 0.5, 0.7)
+	robotgo.Click(robotgo.Left)
+
+	robotgo.MoveSmooth(260, 460, 0.5, 0.7)
+	robotgo.Click(robotgo.Left)
+	deleteInput()
+	robotgo.TypeStr("hello worldあいうえお")
+	// for i := 0; i < 100; i++ {
+	// 	robotgo.KeyTap(robotgo.KeyA)
+	// }
+	robotgo.TypeStr(strings.Repeat("a", 100))
+	copyInput()
+	printLocation()
+
+	robotgo.MoveSmooth(270, 510, 0.5, 0.7)
+	robotgo.Click(robotgo.Left)
+	deleteInput()
+	robotgo.TypeStr("p@ssw0rd")
+	copyInput()
+	printLocation()
+
+	robotgo.MoveSmooth(240, 565, 0.5, 0.7)
+	robotgo.Click(robotgo.Left)
+	deleteInput()
+	robotgo.TypeStr("dummy@example.com")
+	copyInput()
+	printLocation()
+
+	robotgo.MoveSmooth(600, 575, 0.5, 0.7)
+	robotgo.Click(robotgo.Left)
+	printLocation()
+
+	// table
+	robotgo.MoveSmooth(950, 240, 0.5, 0.7)
+	robotgo.Click(robotgo.Left)
+	printLocation()
+	robotgo.MoveSmooth(350, 600, 0.5, 0.7)
+	printLocation()
+	robotgo.ScrollDir(200, "down")
+	time.Sleep(5 * time.Millisecond)
+	robotgo.ScrollDir(100, "right")
+	time.Sleep(5 * time.Millisecond)
+
+	// getScreenShot()
+
+	// canvas
+	robotgo.MoveSmooth(1230, 240, 0.5, 0.7)
+	robotgo.Click(robotgo.Left)
+	robotgo.MoveSmooth(250, 480, 0.5, 0.7)
+	robotgo.DragSmooth(800, 500, 0.5, 0.7)
 
 }
 
@@ -70,50 +137,7 @@ func main() {
 	robotgo.KeySleep = 100
 	robotgo.Sleep(1)
 	fmt.Println("===start===")
-
-	commandWith(robotgo.Escape)
-	commandWith(robotgo.Space)
-
-	robotgo.Move(100, 100)
-	robotgo.Click(robotgo.Left)
-	printLoaction()
-
-	robotgo.MoveSmooth(260, 460)
-	robotgo.Click(robotgo.Left)
-	deleteInput()
-	robotgo.TypeStr("hello worldあいうえお")
-	copyInput()
-	printLoaction()
-
-	robotgo.MoveSmooth(270, 510)
-	robotgo.Click(robotgo.Left)
-	deleteInput()
-	robotgo.TypeStr("p@ssw0rd")
-	copyInput()
-	printLoaction()
-
-	robotgo.MoveSmooth(240, 565)
-	robotgo.Click(robotgo.Left)
-	deleteInput()
-	robotgo.TypeStr("dummy@example.com")
-	copyInput()
-	printLoaction()
-
-	robotgo.MoveSmooth(600, 575)
-	robotgo.Click(robotgo.Left)
-	printLoaction()
-
-	robotgo.MoveSmooth(1020, 240)
-	robotgo.Click(robotgo.Left)
-	printLoaction()
-	robotgo.MoveSmooth(350, 600)
-	printLoaction()
-	robotgo.ScrollDir(200, "down")
-	time.Sleep(5 * time.Millisecond)
-	robotgo.ScrollDir(100, "right")
-	time.Sleep(5 * time.Millisecond)
-
-	getScreenShot()
-
+	handleDummygui()
+	//handleBrowser()
 	fmt.Println("===end===")
 }

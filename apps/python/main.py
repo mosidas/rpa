@@ -1,6 +1,6 @@
 import pyautogui  # type: ignore
 import pyperclip  # type: ignore
-import pywinctl
+import pywinctl  # type: ignore
 import time
 import datetime
 
@@ -45,19 +45,31 @@ def save_screenshot():
   screenshot.save(f"./{file_name}")
 
 
-def main():
-  time.sleep(1)
-  print("===start===")
+def handle_browser():
+  pyautogui.moveTo(380, 330, 0.3)
+  pyautogui.click(button="middle")
+
+
+def handle_dummygui():
+  pyautogui.rightClick()
   pyautogui.hotkey("command", "escape")
   pyautogui.hotkey("command", "space")
 
   pyautogui.moveTo(100, 100)
   pyautogui.leftClick()
 
+  # form
+  pyautogui.moveTo(800, 240, 0.3)
+  pyautogui.leftClick()
+
   pyautogui.moveTo(260, 460, 0.3)
   pyautogui.leftClick()
   delete_input()
   pyautogui.typewrite("hello worldあいうえお")  # hello world
+  # for i in range(100):
+  #   pyautogui.press("a")
+
+  pyautogui.typewrite("a" * 100)
   copy_input()
   print_location()
 
@@ -79,15 +91,28 @@ def main():
   pyautogui.leftClick()
   print_location()
 
-  pyautogui.moveTo(1020, 240, 0.3)
+  # table
+  pyautogui.moveTo(950, 240, 0.3)
   pyautogui.leftClick()
   print_location()
   pyautogui.moveTo(350, 600, 0.3)
   pyautogui.leftClick()
   print_location()
-  pyautogui.scroll(0, -200)
-  save_screenshot()
+  pyautogui.scroll(0, 0, 200)
+  # save_screenshot()
 
+  # canvas
+  pyautogui.moveTo(1230, 240, 0.3)
+  pyautogui.leftClick()
+  pyautogui.moveTo(250, 480, 0.3)
+  pyautogui.dragTo(800, 500, 0.5, button="left")
+
+
+def main():
+  time.sleep(1)
+  print("===start===")
+  handle_dummygui()
+  # handle_browser()
   print("===end===")
 
 
