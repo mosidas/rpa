@@ -16,10 +16,11 @@ node_modules/
 # wails
 
 # go
-build/
+bin/
+darwin/
+windows/
 
 # Misc
 *.log
 *.tmp
 *.bak
-*.png
