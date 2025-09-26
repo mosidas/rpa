@@ -23,9 +23,9 @@ delay_time_sec = 0.1
 class ButtonType(Enum):
   """ボタンタイプ"""
 
-  Left: str = "left"
-  Right: str = "right"
-  Middle: str = "middle"
+  Left = "left"
+  Right = "right"
+  Middle = "middle"
 
 
 class WindowRect(NamedTuple):
@@ -81,9 +81,12 @@ def wait_for_window(app_name: str, timeout: int = 30) -> bool:
   return False
 
 
-def get_active_window_title() -> str:
+def get_active_window_title() -> str | None:
   """アクティブウィンドウのタイトルを取得する。"""
-  return pywinctl.getActiveWindow().title
+  win = pywinctl.getActiveWindow()
+  if win is None:
+    return None
+  return win.title
 
 
 def active_window(app_name: str) -> None:
@@ -208,8 +211,9 @@ def move_to_with_image(image_path: str) -> None:
     confidence=0.8,
   )
   print(img_location)
-  img_x, img_y = pyautogui.center(img_location)
-  move_to(img_x, img_y)
+  if img_location is not None:
+    img_x, img_y = pyautogui.center(img_location)
+    move_to(img_x, img_y)
 
 
 def click(button: ButtonType) -> None:
@@ -245,4 +249,4 @@ def execute_command(*args: str) -> None:
 
   Enable keys: https://pyautogui.readthedocs.io/en/latest/keyboard.html#keyboard-keys
   """
-  pyautogui.hotkey(args)
+  pyautogui.hotkey(*args)
