@@ -1,6 +1,4 @@
-exclude = [
-  ".venv"
-]
+exclude = [".venv"]
 target-version = "py312"
 line-length = 99
 indent-width = 2
@@ -12,4 +10,14 @@ line-ending = "auto"
 
 [lint]
 select = ["ALL"]
-extend-ignore = ["T201", "D400", "D415", "INP001", "RUF002"]
+extend-ignore = [
+  "T201",
+  "D400",
+  "D401",
+  "D415",
+  "S603",
+  "S607",
+  "INP001",
+  "RUF002",
+  "RUF003",
+]

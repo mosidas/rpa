@@ -10,10 +10,12 @@ Thumbs.db
 *.swo
 
 # node
-node_modules/
-.venv/
+**/node_modules/**
 
-# wails
+# python
+**/__pycache__/**
+**/.venv/**
+
 
 # go
 bin/
