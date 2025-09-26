@@ -44,11 +44,13 @@ func commandWith(key string) {
 
 func getScreenShot() {
 	process, _ := robotgo.Process()
+
 	for _, p := range process {
 		// fmt.Printf("process name: %v", p.Name)
 		if strings.Contains(strings.ToLower(p.Name), "dummy") {
 			// ウィンドウの位置とサイズを取得
 			x, y, w, h := robotgo.GetBounds(p.Pid)
+			fmt.Printf("name:%v %v\n", p.Name, robotgo.IsValid())
 			fmt.Printf("hwnd:%v x:%v y:%v w:%v h:%v\n", p.Pid, x, y, w, h)
 
 			fileName := time.Now().Format("2006-01-02-15-04-05")
@@ -63,9 +65,8 @@ func getScreenShot() {
 	}
 }
 
-func handleBrowser() {
-	robotgo.MoveSmooth(380, 330, 0.5, 0.7)
-	robotgo.Click(robotgo.Center)
+func handleScreenShot() {
+	getScreenShot()
 }
 
 func handleDummygui() {
@@ -85,9 +86,6 @@ func handleDummygui() {
 	robotgo.Click(robotgo.Left)
 	deleteInput()
 	robotgo.TypeStr("hello worldあいうえお")
-	// for i := 0; i < 100; i++ {
-	// 	robotgo.KeyTap(robotgo.KeyA)
-	// }
 	robotgo.TypeStr(strings.Repeat("a", 100))
 	copyInput()
 	printLocation()
@@ -121,8 +119,6 @@ func handleDummygui() {
 	robotgo.ScrollDir(100, "right")
 	time.Sleep(5 * time.Millisecond)
 
-	// getScreenShot()
-
 	// canvas
 	robotgo.MoveSmooth(1230, 240, 0.5, 0.7)
 	robotgo.Click(robotgo.Left)
@@ -136,7 +132,7 @@ func main() {
 	robotgo.KeySleep = 100
 	robotgo.Sleep(1)
 	fmt.Println("===start===")
-	handleDummygui()
-	//handleBrowser()
+	// handleDummygui()
+	handleScreenShot()
 	fmt.Println("===end===")
 }

@@ -13,9 +13,6 @@ def handle_browser() -> None:
 
 def handle_dummygui() -> None:
   """Dummy GUIを操作する。"""
-  robot.execute_command("command", "escape")
-  robot.execute_command("command", "space")
-
   robot.active_window("dummy-gui")
   robot.resize_window("dummy-gui", 1504, 1612)
 

@@ -14,8 +14,10 @@ from typing import NamedTuple
 import pyautogui
 import pyperclip
 import pywinctl
+from PIL import Image
 
 is_smooth = True
+delay_time_sec = 0.1
 
 
 class ButtonType(Enum):
@@ -26,7 +28,7 @@ class ButtonType(Enum):
   Middle: str = "middle"
 
 
-class WindowType(NamedTuple):
+class WindowRect(NamedTuple):
   """ウィンドウサイズ情報"""
 
   x: int
@@ -80,7 +82,7 @@ def wait_for_window(app_name: str, timeout: int = 30) -> bool:
 
 
 def get_active_window_title() -> str:
-  """アクティブウィンドウのタイトルを取得する"""
+  """アクティブウィンドウのタイトルを取得する。"""
   return pywinctl.getActiveWindow().title
 
 
@@ -109,7 +111,7 @@ def resize_window(app_name: str, width: int, height: int) -> None:
       return
 
 
-def get_window_size(app_name: str) -> WindowType | None:
+def get_window_size(app_name: str) -> WindowRect | None:
   """指定したアプリのウィンドウサイズを取得する。"""
   windows = pywinctl.getAllWindows()
   if len(windows) == 0:
@@ -121,7 +123,7 @@ def get_window_size(app_name: str) -> WindowType | None:
       y = window.topleft.y
       w = window.width
       h = window.height
-      return WindowType(x=x, y=y, width=w, height=h)
+      return WindowRect(x=x, y=y, width=w, height=h)
 
   return None
 
@@ -192,9 +194,22 @@ def delete_input() -> None:
 def move_to(x: int, y: int) -> None:
   """指定した座標 (x, y) にマウスカーソルを移動する。"""
   if is_smooth:
-    pyautogui.moveTo(x, y, 0.5)
+    pyautogui.moveTo(x, y, delay_time_sec)
   else:
     pyautogui.moveTo(x, y)
+
+
+def move_to_with_image(image_path: str) -> None:
+  """指定した画像にマウスカーソルを移動する。"""
+  image = Image.open(image_path)
+
+  img_location = pyautogui.locateOnScreen(
+    image=image,
+    confidence=0.8,
+  )
+  print(img_location)
+  img_x, img_y = pyautogui.center(img_location)
+  move_to(img_x, img_y)
 
 
 def click(button: ButtonType) -> None:
@@ -210,7 +225,7 @@ def double_click(button: ButtonType) -> None:
 def drag_to(x: int, y: int, button: ButtonType) -> None:
   """指定した座標 (x, y) まで指定したボタンでドラッグ操作を行う。"""
   if is_smooth:
-    pyautogui.dragTo(x, y, 0.5, button=button.value)
+    pyautogui.dragTo(x, y, delay_time_sec, button=button.value)
   else:
     pyautogui.dragTo(x, y, button=button.value)
 
