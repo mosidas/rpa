@@ -11,11 +11,6 @@ def handle_browser() -> None:
   print(robot.get_active_window_title())
 
 
-def get() -> None:
-  """Get"""
-  print(robot.get_windows())
-
-
 def handle_dummygui() -> None:
   """Dummy GUIを操作する。"""
   robot.execute_command("command", "escape")
@@ -23,7 +18,6 @@ def handle_dummygui() -> None:
 
   robot.active_window("dummy-gui")
   robot.resize_window("dummy-gui", 1504, 1612)
-  get()
 
   robot.move_to(100, 100)
   robot.click(button=robot.ButtonType.Left)
@@ -79,8 +73,7 @@ def main() -> None:
   """Main"""
   time.sleep(1)
   print("===start===")
-  handle_browser()
-
+  handle_dummygui()
   print("===end===")
 
 

@@ -177,11 +177,10 @@ def get_input() -> str:
 
 def set_input(s: str) -> None:
   """現在の入力フィールドに指定した文字列を入力する。"""
-  pyautogui.typewrite(s)
-  # tmp = get_clipboard()
-  # set_clipboard(s)
-  # pyautogui.hotkey("command", "v")
-  # set_clipboard(tmp)
+  tmp = get_clipboard()
+  set_clipboard(s)
+  pyautogui.hotkey("command", "v")
+  set_clipboard(tmp)
 
 
 def delete_input() -> None:
