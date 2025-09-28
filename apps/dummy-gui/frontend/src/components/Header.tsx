@@ -67,7 +67,7 @@ export default function Header() {
       <div className="pr-4 h-12 flex items-center justify-between">
         <Link
           href="/"
-          className="text-sm font-medium hover:opacity-80 focus:outline-none focus:ring-2 focus:ring-foreground/30 rounded cursor-pointer"
+          className="text-sm p-2 font-medium hover:opacity-80 focus:outline-none focus:ring-2 focus:ring-foreground/30 rounded cursor-pointer"
           aria-label="トップページへ"
         >
           App
