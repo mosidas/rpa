@@ -15,9 +15,9 @@ func NewApp() *App {
 	return &App{}
 }
 
-// startup is called at application startup
+// startup is called when the app starts. The context is saved
+// so we can call the runtime methods
 func (a *App) startup(ctx context.Context) {
-	// Perform your setup here
 	a.ctx = ctx
 }
 

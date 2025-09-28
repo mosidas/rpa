@@ -1,47 +1,19 @@
-# Wails template Next.js
+# README
 
-![GitHub](https://img.shields.io/github/license/LGiki/wails-template-nextjs?style=flat-square)
+## About
 
-A [Wails](https://github.com/wailsapp/wails) template with [Next.js](https://github.com/vercel/next.js) and TypeScript.
+This is the official Wails Vanilla template.
 
-You can develop applications using Next.js and then use Wails to package your application as a cross-platform program that is compatible with Linux, macOS and Windows. And you can easily call Go methods from JavaScript.
-
-This project uses `next export` to export the Next.js application to static HTML, and then uses Wails to package the static files into a program, so some Next.js features are unsupported, see [https://nextjs.org/docs/advanced-features/static-html-export](https://nextjs.org/docs/advanced-features/static-html-export) for details.
-
-# Screenshot
-
-![](screenshot.png)
-
-# Getting Started
-
-## Prerequisites
-
-- Go 1.17+
-- Node JS
-- NPM
-- [Wails CLI](https://wails.io/docs/next/gettingstarted/installation/)
-
-## New Project
-
-You can create a new wails project using:
-
-```bash
-wails init -n "Your Project Name" -t https://github.com/LGiki/wails-template-nextjs
-```
-
-## Building
-
-If you modified the Go code, you need to run `wails generate module` to generate the wailsjs modules first. Then using `wails build` to build your application.
-
-You can run `wails build --help` or go to [https://wails.io/docs/next/reference/cli#build](https://wails.io/docs/next/reference/cli#build) to view all build flags.
+You can configure the project by editing `wails.json`. More information about the project settings can be found
+here: https://wails.io/docs/reference/project-config
 
 ## Live Development
 
-To run in live development mode, run `wails dev` in the project directory.
+To run in live development mode, run `wails dev` in the project directory. This will run a Vite development
+server that will provide very fast hot reload of your frontend changes. If you want to develop in a browser
+and have access to your Go methods, there is also a dev server that runs on http://localhost:34115. Connect
+to this in your browser, and you can call your Go code from devtools.
 
-## Dummy GUI (Kitchen Sink)
+## Building
 
-This project includes a "kitchen sink" page at `frontend/pages/index.tsx` that renders a wide variety of UI widgets for RPA tool validation (buttons, inputs, selects, checkboxes, radios, sliders, date/time pickers, file inputs, progress/meter, tables, lists, dialogs, tooltips, etc.).
-
-- Internal logic is intentionally minimal; elements are primarily static for automation testing.
-- Start with `wails dev` for live preview, or build via scripts under `scripts/`.
+To build a redistributable, production mode package, use `wails build`.

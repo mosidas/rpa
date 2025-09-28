@@ -1,8 +1,6 @@
-module dummy-gui
+module rename
 
-go 1.22.0
-
-toolchain go1.24.4
+go 1.23
 
 require github.com/wailsapp/wails/v2 v2.10.2
 
@@ -36,4 +34,4 @@ require (
 	golang.org/x/text v0.22.0 // indirect
 )
 
-// replace github.com/wailsapp/wails/v2 v2.10.2 => /Users/syoota.yamaguchi/go/pkg/mod
+// replace github.com/wailsapp/wails/v2 v2.10.2 => /Users/shota/go/pkg/mod
