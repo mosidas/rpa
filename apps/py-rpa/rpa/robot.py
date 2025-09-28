@@ -17,7 +17,7 @@ import pywinctl
 from PIL import Image
 
 is_smooth = True
-delay_time_sec = 0.1
+delay_time_sec = 0.5
 
 
 class ButtonType(Enum):
@@ -188,6 +188,11 @@ def set_input(s: str) -> None:
   set_clipboard(tmp)
 
 
+def typewrite(s: str) -> None:
+  """指定した文字列をタイピングする(US配列キーボード)"""
+  pyautogui.typewrite(s)
+
+
 def delete_input() -> None:
   """現在の入力フィールドの内容を削除する。"""
   pyautogui.hotkey("command", "a")
@@ -249,4 +254,5 @@ def execute_command(*args: str) -> None:
 
   Enable keys: https://pyautogui.readthedocs.io/en/latest/keyboard.html#keyboard-keys
   """
-  pyautogui.hotkey(*args)
+  # intervalが短いとコマンドが認識されない
+  pyautogui.hotkey(*args, interval=0.05)
