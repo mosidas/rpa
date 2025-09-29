@@ -15,13 +15,9 @@ import pyautogui
 import pyperclip
 import pywinctl
 from PIL import Image
-from selenium import webdriver
-from selenium.common.exceptions import NoSuchElementException
-from selenium.webdriver.common.by import By
 
 is_smooth = True
 delay_time_sec = 0.5
-_driver = webdriver.Edge()
 
 
 class ButtonType(Enum):
@@ -59,53 +55,6 @@ def start_app(app_path: str) -> None:
     raise RuntimeError(msg)
 
   subprocess.run([open_cmd, str(path)], check=True)
-
-
-def open_browser(url: str) -> None:
-  """Edgeで指定したURLを表示する。"""
-  _driver.get(url)
-  time.sleep(delay_time_sec)
-
-
-def close_browser() -> None:
-  """ブラウザを閉じる"""
-  _driver.quit()
-
-
-def input_browser(attr_id: str, s: str) -> None:
-  """指定したHTML要素に値を入力する。"""
-  try:
-    _driver.find_element(By.ID, attr_id).send_keys(s)
-    time.sleep(delay_time_sec)
-  except NoSuchElementException as e:
-    print(str(e))
-
-
-def input_date_browser(attr_id: str, s: str) -> None:
-  """指定したHTML要素に値を入力する。"""
-  try:
-    _driver.find_element(By.ID, attr_id).send_keys(f"00{s}")
-    time.sleep(delay_time_sec)
-  except NoSuchElementException as e:
-    print(str(e))
-
-
-def click_browser(attr_id: str) -> None:
-  """指定したHTML要素をクリックする。"""
-  try:
-    _driver.find_element(By.ID, attr_id).click()
-    time.sleep(delay_time_sec)
-  except NoSuchElementException as e:
-    print(str(e))
-
-
-def get_value_browser(attr_id: str) -> str | None:
-  """指定したHTML要素の値を取得する。"""
-  try:
-    return _driver.find_element(By.ID, attr_id).text
-  except NoSuchElementException:
-    print("error")
-    return None
 
 
 def wait_for_window(app_name: str, timeout: int = 30) -> bool:
