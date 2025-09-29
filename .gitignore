@@ -26,3 +26,4 @@ windows/
 *.log
 *.tmp
 *.bak
+*.env

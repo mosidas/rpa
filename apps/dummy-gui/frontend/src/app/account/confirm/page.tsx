@@ -45,13 +45,13 @@ function ConfirmInner() {
     <div className="max-w-2xl">
       <h1 className="text-lg font-semibold mb-4">アカウント情報確認</h1>
       <div className="border rounded divide-y">
-        <Row label="氏名" value={data.name} />
-        <Row label="年齢" value={data.age} />
-        <Row label="性別" value={genderLabel(data.gender)} />
-        <Row label="住所" value={data.address} />
-        <Row label="メールアドレス" value={data.email} />
-        <Row label="電話番号" value={data.phone} />
-        <Row label="生年月日" value={data.birthday} />
+        <Row id="name" label="氏名" value={data.name} />
+        <Row id="age" label="年齢" value={data.age} />
+        <Row id="gender" label="性別" value={genderLabel(data.gender)} />
+        <Row id="address" label="住所" value={data.address} />
+        <Row id="email" label="メールアドレス" value={data.email} />
+        <Row id="phone" label="電話番号" value={data.phone} />
+        <Row id="birthday" label="生年月日" value={data.birthday} />
       </div>
       <div className="flex justify-center gap-3 mt-4">
         <button type="button" onClick={backToForm} className="px-4 py-2 rounded border">
@@ -69,11 +69,13 @@ function ConfirmInner() {
   );
 }
 
-function Row({ label, value }: { label: string; value: string }) {
+function Row({ id, label, value }: { id: string; label: string; value: string }) {
   return (
     <div className="flex p-3">
       <div className="w-36 shrink-0 text-foreground/70">{label}</div>
-      <div className="flex-1 whitespace-pre-wrap break-words">{value || '—'}</div>
+      <div id={id} className="flex-1 whitespace-pre-wrap break-words">
+        {value || '—'}
+      </div>
     </div>
   );
 }

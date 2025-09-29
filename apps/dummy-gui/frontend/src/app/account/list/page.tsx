@@ -138,6 +138,24 @@ function ListInner() {
   const start = (page - 1) * PAGE_SIZE;
   const items = filtered.slice(start, start + PAGE_SIZE);
 
+  // 表示するページ番号を省略して生成
+  const pageItems = useMemo<(number | string)[]>(() => {
+    const items: (number | string)[] = [];
+    const win = 2; // 現在ページの前後に表示する数
+    const set = new Set<number>();
+    set.add(1);
+    set.add(totalPages);
+    for (let p = Math.max(1, page - win); p <= Math.min(totalPages, page + win); p++) {
+      set.add(p);
+    }
+    const pages = Array.from(set).sort((a, b) => a - b);
+    for (let i = 0; i < pages.length; i++) {
+      if (i > 0 && pages[i] - pages[i - 1] > 1) items.push(`gap-${pages[i - 1]}-${pages[i]}`);
+      items.push(pages[i]);
+    }
+    return items;
+  }, [page, totalPages]);
+
   const pushWith = (next: { q?: string; page?: number }) => {
     const params = new URLSearchParams();
     const q = next.q ?? qParam;
@@ -214,35 +232,61 @@ function ListInner() {
             </table>
           </div>
 
-          <nav className="flex justify-center gap-1 mt-4" aria-label="ページング">
-            <button
-              type="button"
-              className="px-3 py-1.5 rounded border disabled:opacity-40"
-              onClick={() => goPage(Math.max(1, page - 1))}
-              disabled={page <= 1}
-            >
-              前へ
-            </button>
-            {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
+          <div className="mt-4 max-w-full overflow-x-auto">
+            <nav className="flex flex-wrap justify-center items-center gap-1" aria-label="ページング">
               <button
                 type="button"
-                key={p}
-                aria-current={p === page ? 'page' : undefined}
-                className={`px-3 py-1.5 rounded border ${p === page ? 'bg-foreground/10' : 'hover:bg-foreground/5'}`}
-                onClick={() => goPage(p)}
+                className="px-3 py-1.5 rounded border disabled:opacity-40"
+                onClick={() => goPage(1)}
+                disabled={page <= 1}
               >
-                {p}
+                最初へ
               </button>
-            ))}
-            <button
-              type="button"
-              className="px-3 py-1.5 rounded border disabled:opacity-40"
-              onClick={() => goPage(Math.min(totalPages, page + 1))}
-              disabled={page >= totalPages}
-            >
-              次へ
-            </button>
-          </nav>
+              <button
+                type="button"
+                className="px-3 py-1.5 rounded border disabled:opacity-40"
+                onClick={() => goPage(Math.max(1, page - 1))}
+                disabled={page <= 1}
+              >
+                前へ
+              </button>
+              {pageItems.map((it) =>
+                typeof it === 'string' && it.startsWith('gap-') ? (
+                  <span key={it} className="px-2 py-1.5 text-foreground/60 select-none">
+                    …
+                  </span>
+                ) : (
+                  <button
+                    type="button"
+                    key={`p-${it}`}
+                    aria-current={it === page ? 'page' : undefined}
+                    className={`px-3 py-1.5 rounded border ${
+                      it === page ? 'bg-foreground/10' : 'hover:bg-foreground/5'
+                    }`}
+                    onClick={() => goPage(Number(it))}
+                  >
+                    {it}
+                  </button>
+                ),
+              )}
+              <button
+                type="button"
+                className="px-3 py-1.5 rounded border disabled:opacity-40"
+                onClick={() => goPage(Math.min(totalPages, page + 1))}
+                disabled={page >= totalPages}
+              >
+                次へ
+              </button>
+              <button
+                type="button"
+                className="px-3 py-1.5 rounded border disabled:opacity-40"
+                onClick={() => goPage(totalPages)}
+                disabled={page >= totalPages}
+              >
+                最後へ
+              </button>
+            </nav>
+          </div>
         </>
       )}
     </div>

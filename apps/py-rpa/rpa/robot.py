@@ -15,9 +15,13 @@ import pyautogui
 import pyperclip
 import pywinctl
 from PIL import Image
+from selenium import webdriver
+from selenium.common.exceptions import NoSuchElementException
+from selenium.webdriver.common.by import By
 
 is_smooth = True
 delay_time_sec = 0.5
+_driver = webdriver.Edge()
 
 
 class ButtonType(Enum):
@@ -55,6 +59,53 @@ def start_app(app_path: str) -> None:
     raise RuntimeError(msg)
 
   subprocess.run([open_cmd, str(path)], check=True)
+
+
+def open_browser(url: str) -> None:
+  """Edgeで指定したURLを表示する。"""
+  _driver.get(url)
+  time.sleep(delay_time_sec)
+
+
+def close_browser() -> None:
+  """ブラウザを閉じる"""
+  _driver.quit()
+
+
+def input_browser(attr_id: str, s: str) -> None:
+  """指定したHTML要素に値を入力する。"""
+  try:
+    _driver.find_element(By.ID, attr_id).send_keys(s)
+    time.sleep(delay_time_sec)
+  except NoSuchElementException as e:
+    print(str(e))
+
+
+def input_date_browser(attr_id: str, s: str) -> None:
+  """指定したHTML要素に値を入力する。"""
+  try:
+    _driver.find_element(By.ID, attr_id).send_keys(f"00{s}")
+    time.sleep(delay_time_sec)
+  except NoSuchElementException as e:
+    print(str(e))
+
+
+def click_browser(attr_id: str) -> None:
+  """指定したHTML要素をクリックする。"""
+  try:
+    _driver.find_element(By.ID, attr_id).click()
+    time.sleep(delay_time_sec)
+  except NoSuchElementException as e:
+    print(str(e))
+
+
+def get_value_browser(attr_id: str) -> str | None:
+  """指定したHTML要素の値を取得する。"""
+  try:
+    return _driver.find_element(By.ID, attr_id).text
+  except NoSuchElementException:
+    print("error")
+    return None
 
 
 def wait_for_window(app_name: str, timeout: int = 30) -> bool:
@@ -186,6 +237,7 @@ def set_input(s: str) -> None:
   set_clipboard(s)
   pyautogui.hotkey("command", "v")
   set_clipboard(tmp)
+  pyautogui.hotkey("escape")
 
 
 def typewrite(s: str) -> None:
@@ -210,15 +262,46 @@ def move_to(x: int, y: int) -> None:
 def move_to_with_image(image_path: str) -> None:
   """指定した画像にマウスカーソルを移動する。"""
   image = Image.open(image_path)
+  image_org = image.copy()
 
-  img_location = pyautogui.locateOnScreen(
-    image=image,
-    confidence=0.8,
-  )
-  print(img_location)
-  if img_location is not None:
-    img_x, img_y = pyautogui.center(img_location)
-    move_to(img_x, img_y)
+  count = 0
+  max_count = 20
+  ratio = 1
+  is_success = _move_to_image(image)
+  print(f"is_success: {is_success}")
+  while not is_success and count < max_count - 1:
+    count += 1
+    ratio -= 0.05
+    print(f"count: {count}, ratio: {ratio}")
+    image = image.resize(((int)(image_org.width * ratio), (int)(image_org.height * ratio)))
+    is_success = _move_to_image(image)
+    print(f"is_success: {is_success}")
+
+  count = 0
+  ratio = 1
+  while not is_success and count < max_count:
+    count += 1
+    ratio += 0.05
+    print(f"count: {count}, ratio: {ratio}")
+    image = image.resize(((int)(image_org.width * ratio), (int)(image_org.height * ratio)))
+    is_success = _move_to_image(image)
+    print(f"is_success: {is_success}")
+
+
+def _move_to_image(img: Image.Image) -> bool:
+  try:
+    img_location = pyautogui.locateOnScreen(
+      image=img,
+      confidence=0.9,
+    )
+    if img_location is not None:
+      img_x, img_y = pyautogui.center(img_location)
+      # retinaディスプレイだと、2倍の値の座標が取得されるので、1/2する。
+      move_to((int)(img_x / 2), (int)(img_y / 2))
+  except pyautogui.ImageNotFoundException as e:
+    print(str(e))
+    return False
+  return True
 
 
 def click(button: ButtonType) -> None:

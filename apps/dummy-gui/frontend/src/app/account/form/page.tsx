@@ -91,17 +91,25 @@ function FormInner() {
           <label className="block text-sm mb-1" htmlFor="gender">
             性別
           </label>
-          <select
-            id="gender"
-            value={data.gender}
-            onChange={update('gender')}
-            className="w-full border rounded px-3 py-2 bg-background"
-          >
-            <option value="">未選択</option>
-            <option value="male">男性</option>
-            <option value="female">女性</option>
-            <option value="other">その他</option>
-          </select>
+          <div className="relative">
+            <select
+              id="gender"
+              value={data.gender}
+              onChange={update('gender')}
+              className="w-full border rounded px-3 py-2 pr-9 bg-background bg-none appearance-none"
+            >
+              <option value="">未選択</option>
+              <option value="male">男性</option>
+              <option value="female">女性</option>
+              <option value="other">その他</option>
+            </select>
+            <span
+              aria-hidden
+              className="pointer-events-none absolute inset-y-0 right-3 flex items-center text-foreground/60"
+            >
+              ▾
+            </span>
+          </div>
         </div>
 
         <div>
@@ -164,7 +172,11 @@ function FormInner() {
         </div>
 
         <div className="pt-2 flex justify-center">
-          <button type="submit" className="px-4 py-2 rounded border bg-foreground/5 hover:bg-foreground/10">
+          <button
+            id="submit-input"
+            type="submit"
+            className="px-4 py-2 rounded border bg-foreground/5 hover:bg-foreground/10"
+          >
             入力内容を確認する
           </button>
         </div>

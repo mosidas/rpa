@@ -10,7 +10,9 @@ dependencies = [
   "pyautogui>=0.9.54",
   "pyperclip>=1.10.0",
   "pyscreeze>=1.0.1",
+  "python-dotenv>=1.1.1",
   "pywinctl>=0.4.1",
+  "selenium>=4.35.0",
 ]
 
 [dependency-groups]

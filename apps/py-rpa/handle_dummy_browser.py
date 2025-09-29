@@ -16,7 +16,7 @@ def handle_dummygui() -> None:
   robot.is_smooth = True
   robot.delay_time_sec = 0.3
 
-  robot.active_window("dummy-gui")
+  robot.active_window("Microsoft Edge")
 
   # account register
   robot.move_to_with_image(f"{imagepath}/reg-account-btn.png")
@@ -41,7 +41,7 @@ def handle_dummygui() -> None:
   robot.move_to_with_image(f"{imagepath}/input-phone.png")
   robot.click(robot.ButtonType.Left)
   robot.set_input("090-1111-2222")
-  robot.move_to_with_image(f"{imagepath}/input-yyyy-MM-dd.png")
+  robot.move_to_with_image(f"{imagepath}/input-yyyy-MM-dd-browser.png")
   robot.click(robot.ButtonType.Left)
   robot.typewrite("1800")
   robot.execute_command("right")
