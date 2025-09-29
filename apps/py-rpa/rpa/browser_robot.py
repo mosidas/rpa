@@ -23,9 +23,11 @@ class BrowserType(Enum):
   FireFox = 4
 
 
-def open_browser(url: str) -> None:
+def open_browser(url: str, x: int | None = None, y: int | None = None) -> None:
   """指定したURLを指定したブラウザで表示する。"""
   _driver.get(url)
+  if x is not None and y is not None:
+    _driver.set_window_size(x, y)
   time.sleep(delay_time_sec)
 
 
@@ -73,3 +75,22 @@ def get_value_browser(attr_id: str) -> str | None:
   except NoSuchElementException as e:
     print(e.msg)
     return None
+
+
+def get_current_scroll_position() -> tuple[int, int]:
+  """スクロール位置を取得"""
+  scroll_y = _driver.execute_script("return window.pageYOffset;")
+  scroll_x = _driver.execute_script("return window.pageXOffset;")
+  return scroll_x, scroll_y
+
+
+def scroll_x(x: int) -> None:
+  """水平スクロール"""
+  current_x, current_y = get_current_scroll_position()
+  _driver.execute_script(f"window.scrollTo({x + current_x},{current_y});")
+
+
+def scroll_y(y: int) -> None:
+  """垂直スクロール"""
+  current_x, current_y = get_current_scroll_position()
+  _driver.execute_script(f"window.scrollTo({current_x},{y + current_y});")

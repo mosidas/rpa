@@ -17,7 +17,7 @@ def handle_dummygui() -> None:
   browser_robot.delay_time_sec = 0.3
 
   url_base = "http://localhost:3000/"
-  browser_robot.open_browser(url_base)
+  browser_robot.open_browser(url_base, 300, 300)
 
   # account register
   name = "あいう エオ"
@@ -31,6 +31,7 @@ def handle_dummygui() -> None:
   url_confirm = f"{url_base}account/confirm"
   browser_robot.click_browser("menu-register-account")
   time.sleep(1)
+  browser_robot.scroll_y(100)
   print(f"url_form: {tester.check(browser_robot.get_current_url(), url_form)}")
   browser_robot.input_browser("name", name)
   browser_robot.input_browser("age", age)
@@ -50,6 +51,9 @@ def handle_dummygui() -> None:
   print(f"email: {tester.check(browser_robot.get_value_browser('email'), email)}")
   print(f"phone: {tester.check(browser_robot.get_value_browser('phone'), phone)}")
   print(f"birthday: {tester.check(browser_robot.get_value_browser('birthday'), birthday)}")
+  browser_robot.scroll_y(200)
+  browser_robot.scroll_x(200)
+  time.sleep(1)
 
 
 def main() -> None:

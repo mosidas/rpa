@@ -208,6 +208,14 @@ def move_to(x: int, y: int) -> None:
     pyautogui.moveTo(x, y)
 
 
+def move_to_with_resize_image(image_path: str, x: int, y: int) -> None:
+  """指定した画像をリサイズしてマウスカーソルを移動する。"""
+  image = Image.open(image_path)
+  image = image.resize((x, y), resample=Image.Resampling.NEAREST)
+  is_success = _move_to_image(image)
+  print(f"is_success: {is_success}")
+
+
 def move_to_with_image(image_path: str) -> None:
   """指定した画像にマウスカーソルを移動する。"""
   image = Image.open(image_path)
@@ -248,7 +256,7 @@ def _move_to_image(img: Image.Image) -> bool:
       # retinaディスプレイだと、2倍の値の座標が取得されるので、1/2する。
       move_to((int)(img_x / 2), (int)(img_y / 2))
   except pyautogui.ImageNotFoundException as e:
-    print(str(e))
+    print(e.with_traceback(None))
     return False
   return True
 
