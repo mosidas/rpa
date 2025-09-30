@@ -17,10 +17,11 @@ def handle_hp() -> None:
   robot.delay_time_sec = 0.3
 
   robot.active_window("Microsoft Edge")
+  robot.move_to_with_resize_image(f"{imagepath}/bp-banner-sc.png", 150, 150)
   # robot.move_to_with_resize_image(f"{imagepath}/kotira-btn-p3b-x2.png", 310, 50)
   # robot.move_to_with_resize_image(f"{imagepath}/bp-banner-p3-x2.png", 150, 150)
   # robot.move_to_with_image(f"{imagepath}/kotira-btn-sc.png")
-  # robot.move_to_with_image(f"{imagepath}/bp-banner-sc.png")
+  robot.move_to_with_image(f"{imagepath}/bp-banner-sc.png")
   # robot.click(robot.ButtonType.Left)
   # time.sleep(1)
   # robot.move_to_with_image(f"{imagepath}/more-btn-sc.png")
