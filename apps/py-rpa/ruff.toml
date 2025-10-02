@@ -12,6 +12,8 @@ line-ending = "auto"
 select = ["ALL"]
 extend-ignore = [
   "T201",
+  "D107",
+  "D202",
   "D400",
   "D401",
   "D415",
@@ -20,4 +22,5 @@ extend-ignore = [
   "INP001",
   "RUF002",
   "RUF003",
+  "TRY300",
 ]

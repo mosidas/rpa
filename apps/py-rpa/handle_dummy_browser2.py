@@ -6,7 +6,7 @@ from urllib.parse import urljoin
 
 from dotenv import load_dotenv
 
-from rpa.browser_robot_selenium import SeleniumBrowserRobot
+from rpa.browser_robot_playwright import PlaywrightBrowserRobot
 from tools import tester
 
 load_dotenv()
@@ -16,7 +16,7 @@ imagepath = os.environ["IMAGE_PATH"]
 def handle_dummygui() -> None:
   """Dummy GUIを操作する。"""
 
-  with SeleniumBrowserRobot(delay_time_sec=0.3) as robot:
+  with PlaywrightBrowserRobot(delay_time_sec=0.3) as robot:
     url_base = "http://localhost:3000"
     robot.open_browser(url_base, 1000, 1000)
 
@@ -34,10 +34,9 @@ def handle_dummygui() -> None:
     birthday = "1888-09-30"
     url_form = urljoin(url_base, "account/form")
     url_confirm = urljoin(url_base, "account/confirm")
-    robot.click("menu-register-account")
+    robot.click_browser("menu-register-account")
     time.sleep(1)
     robot.scroll_y(100)
-    robot.scroll_y(-100)
     print(f"url_form: {tester.check(robot.get_current_url(), url_form)}")
     robot.input("name", name)
     robot.input("age", age)
@@ -47,19 +46,19 @@ def handle_dummygui() -> None:
     robot.input("phone", phone)
     robot.input_date("birthday", birthday)
     time.sleep(1)
-    robot.click("submit-input")
+    robot.click_browser("submit-input")
     time.sleep(1)
     print(
       f"url_confirm: {tester.check_start_with(robot.get_current_url(), url_confirm)}",
     )
-    print(f"name: {tester.check(robot.get_value('name'), name)}")
-    print(f"age: {tester.check(robot.get_value('age'), age)}")
-    print(f"gender: {tester.check(robot.get_value('gender'), gender)}")
-    print(f"address: {tester.check(robot.get_value('address'), address)}")
-    print(f"email: {tester.check(robot.get_value('email'), email)}")
-    print(f"phone: {tester.check(robot.get_value('phone'), phone)}")
+    print(f"name: {tester.check(robot.get_value_browser('name'), name)}")
+    print(f"age: {tester.check(robot.get_value_browser('age'), age)}")
+    print(f"gender: {tester.check(robot.get_value_browser('gender'), gender)}")
+    print(f"address: {tester.check(robot.get_value_browser('address'), address)}")
+    print(f"email: {tester.check(robot.get_value_browser('email'), email)}")
+    print(f"phone: {tester.check(robot.get_value_browser('phone'), phone)}")
     print(
-      f"birthday: {tester.check(robot.get_value('birthday'), birthday)}",
+      f"birthday: {tester.check(robot.get_value_browser('birthday'), birthday)}",
     )
     robot.scroll_y(200)
     robot.scroll_x(200)
