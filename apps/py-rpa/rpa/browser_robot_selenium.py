@@ -78,6 +78,40 @@ class SeleniumBrowserRobot:
     driver = self._ensure_driver()
     return driver.current_window_handle
 
+  def open_new_tab(self, url: str) -> None:
+    """新しいタブで指定したURLを開く。"""
+    driver = self._ensure_driver()
+    driver.execute_script("window.open('');")
+    driver.switch_to.window(driver.window_handles[-1])
+    driver.get(url)
+    self._wait_after_action()
+
+  def switch_tab(self, index: int) -> None:
+    """指定したインデックスのタブへ切り替える。"""
+    driver = self._ensure_driver()
+    handles = driver.window_handles
+    if index < 0 or index >= len(handles):
+      message = f"指定したインデックスのタブは存在しません: {index}"
+      raise IndexError(message)
+    driver.switch_to.window(handles[index])
+    self._wait_after_action()
+
+  def close_tab(self) -> None:
+    """現在のタブを閉じて、前のタブへ切り替える。"""
+    driver = self._ensure_driver()
+    handles = driver.window_handles
+    if len(handles) <= 1:
+      message = "タブが1つしかないため、閉じることができません。"
+      raise RuntimeError(message)
+    current_handle = driver.current_window_handle
+    driver.close()
+    for i, handle in enumerate(handles):
+      if handle == current_handle:
+        new_index = max(0, i - 1)
+        driver.switch_to.window(handles[new_index])
+        break
+    self._wait_after_action()
+
   def close_browser(self) -> None:
     """ブラウザを閉じてドライバを破棄する。"""
     self._close_driver()

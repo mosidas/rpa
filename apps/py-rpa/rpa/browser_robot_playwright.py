@@ -94,6 +94,41 @@ class PlaywrightBrowserRobot:
     page = self._ensure_page()
     return f"page-{id(page)}"
 
+  def open_new_tab(self, url: str) -> None:
+    """新しいタブで指定したURLを開く。"""
+    page = self._ensure_page()
+    context = page.context
+    new_page = context.new_page()
+    new_page.goto(url, wait_until="load")
+    self._page = new_page
+    self._wait_after_action(new_page)
+
+  def switch_tab(self, index: int) -> None:
+    """指定したindexのタブに切り替える。"""
+    page = self._ensure_page()
+    context = page.context
+    pages = context.pages
+    if index < 0 or index >= len(pages):
+      message = f"指定したタブのインデックスが不正です: {index}"
+      raise IndexError(message)
+    self._page = pages[index]
+    self._wait_after_action(self._page)
+
+  def close_tab(self) -> None:
+    """現在のタブを閉じて、前のタブへ切り替える。"""
+    page = self._ensure_page()
+    context = page.context
+    pages = context.pages
+    if len(pages) <= 1:
+      message = "タブが1つしかないため、閉じることができません。"
+      raise RuntimeError(message)
+    current_index = pages.index(page)
+    with contextlib.suppress(Exception):
+      page.close()
+    new_index = current_index - 1 if current_index > 0 else 0
+    self._page = context.pages[new_index]
+    self._wait_after_action(self._page)
+
   def close_browser(self) -> None:
     """ブラウザと Playwright を終了する。"""
     self._close_if_needed()
@@ -124,7 +159,7 @@ class PlaywrightBrowserRobot:
     except PlaywrightError as error:
       print(error)
 
-  def click_browser(self, attr_id: str) -> None:
+  def click(self, attr_id: str) -> None:
     """指定したHTML要素をクリックする。"""
     page = self._ensure_page()
     try:
@@ -133,7 +168,7 @@ class PlaywrightBrowserRobot:
     except PlaywrightError as error:
       print(error)
 
-  def get_value_browser(self, attr_id: str) -> str | None:
+  def get_value(self, attr_id: str) -> str | None:
     """指定したHTML要素の値を取得する。"""
     page = self._ensure_page()
     try:

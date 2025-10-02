@@ -34,7 +34,7 @@ def handle_dummygui() -> None:
     birthday = "1888-09-30"
     url_form = urljoin(url_base, "account/form")
     url_confirm = urljoin(url_base, "account/confirm")
-    robot.click_browser("menu-register-account")
+    robot.click("menu-register-account")
     time.sleep(1)
     robot.scroll_y(100)
     print(f"url_form: {tester.check(robot.get_current_url(), url_form)}")
@@ -46,19 +46,19 @@ def handle_dummygui() -> None:
     robot.input("phone", phone)
     robot.input_date("birthday", birthday)
     time.sleep(1)
-    robot.click_browser("submit-input")
+    robot.click("submit-input")
     time.sleep(1)
     print(
       f"url_confirm: {tester.check_start_with(robot.get_current_url(), url_confirm)}",
     )
-    print(f"name: {tester.check(robot.get_value_browser('name'), name)}")
-    print(f"age: {tester.check(robot.get_value_browser('age'), age)}")
-    print(f"gender: {tester.check(robot.get_value_browser('gender'), gender)}")
-    print(f"address: {tester.check(robot.get_value_browser('address'), address)}")
-    print(f"email: {tester.check(robot.get_value_browser('email'), email)}")
-    print(f"phone: {tester.check(robot.get_value_browser('phone'), phone)}")
+    print(f"name: {tester.check(robot.get_value('name'), name)}")
+    print(f"age: {tester.check(robot.get_value('age'), age)}")
+    print(f"gender: {tester.check(robot.get_value('gender'), gender)}")
+    print(f"address: {tester.check(robot.get_value('address'), address)}")
+    print(f"email: {tester.check(robot.get_value('email'), email)}")
+    print(f"phone: {tester.check(robot.get_value('phone'), phone)}")
     print(
-      f"birthday: {tester.check(robot.get_value_browser('birthday'), birthday)}",
+      f"birthday: {tester.check(robot.get_value('birthday'), birthday)}",
     )
     robot.scroll_y(200)
     robot.scroll_x(200)
